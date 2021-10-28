@@ -32,25 +32,4 @@ $select = $connection -> query($where);
 $produits = json_encode($select->fetchAll( PDO::FETCH_ASSOC ));
 // affichage du Json
 echo ($produits);
-
-
-
-
-/*$select->setFetchMode(PDO::FETCH_OBJ);
-
-//afficher la sqlrequest
-$strProduit = '[';
-while($enregistrement = $select->fetch())
-{
-  $strProduit = $strProduit.'{ 
-                    "nom":"'.$enregistrement->nom.'",
-                    "prix":'.$enregistrement->prix.',
-                    "image":"'.$enregistrement->image.'",
-                    "type":"'.$enregistrement->type.'",
-                    "nutriscore":"'.$enregistrement->nutriscore.'"
-                  },';
-  
-}
-$strProduit = substr($strProduit, 0, -1);
-echo $strProduit.']';*/
 ?>

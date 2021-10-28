@@ -2,9 +2,6 @@
 var products;
 var myForm = document.getElementById('formSelect');
 formdata = new FormData(myForm);
-//formdata.append('nutriscore','Tous')
-//formdata.append('category','Tous')
-//formdata.append('searchTerm','')
 
 for (var x of formdata) console.log(x);
 // ajout du fichier json dans la var product 
@@ -53,7 +50,7 @@ function initialize() {
       lastSearch = searchTerm.value.trim();
       //var myForm = document.getElementById('formSelect');
       formdata = new FormData(myForm);
-      for (var x of formdata) console.log(x);
+      //for (var x of formdata) console.log(x);
       fetch('produits.php',{method:"post",body:formdata}).then(function (response){//'produits.php?nutriscore='+lastnutriscore+'&category='+lastCategory+'&searchTerm='+lastSearch).then(function (response) {
         if (response.ok) {
           response.json().then(function (json) {
@@ -64,33 +61,9 @@ function initialize() {
           console.log('Network request for products.json failed with response ' + response.status + ': ' + response.statusText);
         }
       });
-      /*var lowerCaseType = category.value.toLowerCase();
-      for (var i = 0; i < products.length; i++) {
-        if (products[i].type === lowerCaseType || category.value === 'Tous') {
-          if (products[i].nutriscore === lastnutriscore || lastnutriscore === 'Tous'){
-            categoryGroup.push(products[i]);
-          }
-        }
-      }*/
         
   }
 
-  // semi-inutile qui renvois vers updateDisplay pour les afficher
-/* function selectProducts() {
-    if (searchTerm.value.trim() === '') {
-      finalGroup = categoryGroup;
-      updateDisplay();
-    } else {
-      var lowerCaseSearchTerm = searchTerm.value.trim().toLowerCase();
-
-      for (var i = 0; i < categoryGroup.length; i++) {
-        if (categoryGroup[i].nom.indexOf(lowerCaseSearchTerm) !== -1) {
-          finalGroup.push(categoryGroup[i]);
-        }
-      }
-      updateDisplay();
-    }
-  }*/
 
   // vide les produit afficher puis envois des nouveau elements vers showProduct
   function updateDisplay() {

@@ -206,3 +206,18 @@ section h3
   background: black url(icons/soup.png) no-repeat 2px 2px;
   background-size: 24px 24px;
 }
+.A{
+  background-color: #196f3d;
+}
+.B{
+  background-color: #52be80;
+}
+.C{
+  background-color: #f1c40f;
+}
+.D{
+  background-color: #dc7633;
+}
+.E{
+  background-color: #c0392b;
+}

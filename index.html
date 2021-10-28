@@ -18,10 +18,10 @@
   </header>
   <div>
     <aside>
-      <form method="get">
+      <form method="post" id="formSelect">
         <div>
           <label for="category">Choix de catégorie:</label>
-          <select id="category">
+          <select id="category" name="category">
             <option selected>Tous</option>
             <option>Legumes</option>
             <option>Viande</option>
@@ -30,7 +30,7 @@
         </div>
         <div>
           <label for="nutriscore">Nutriscore:</label>
-          <select id="nutriscore">
+          <select id="nutriscore" name="nutriscore">
             <option selected>Tous</option>
             <option>A</option>
             <option>B</option>
@@ -40,8 +40,8 @@
           </select>
         </div>
         <div>
-          <label for="searchTerm">Entre le terme de recherche:</label>
-          <input type="text" id="searchTerm" placeholder="ex : Petits pois">
+          <label for="searchTerm" >Entre le terme de recherche:</label>
+          <input type="text" id="searchTerm" name="searchTerm" placeholder="ex : Petits pois">
         </div>
         <div>
           <button>afficher le resultat</button>

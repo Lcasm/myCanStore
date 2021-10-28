@@ -1,9 +1,15 @@
 // var qui va contenir les produit
 var products;
+var myForm = document.getElementById('formSelect');
+formdata = new FormData(myForm);
+//formdata.append('nutriscore','Tous')
+//formdata.append('category','Tous')
+//formdata.append('searchTerm','')
 
+for (var x of formdata) console.log(x);
 // ajout du fichier json dans la var product 
 // fetch pour eviter les erreur
-fetch('produits.php?nutriscore=Tous&category=Tous&searchTerm=').then(function (response) {
+fetch('produits.php',{method:"post",body:formdata}).then(function (response) {
   if (response.ok) {
     response.json().then(function (json) {
       products = json;
@@ -39,17 +45,20 @@ function initialize() {
 
     
     e.preventDefault();
-    categoryGroup = [];
+    //categoryGroup = [];
     finalGroup = [];
 
       lastnutriscore = nutriscore.value
       lastCategory = category.value;
       lastSearch = searchTerm.value.trim();
-      fetch('produits.php?nutriscore='+lastnutriscore+'&category='+lastCategory+'&searchTerm='+lastSearch).then(function (response) {
+      //var myForm = document.getElementById('formSelect');
+      formdata = new FormData(myForm);
+      for (var x of formdata) console.log(x);
+      fetch('produits.php',{method:"post",body:formdata}).then(function (response){//'produits.php?nutriscore='+lastnutriscore+'&category='+lastCategory+'&searchTerm='+lastSearch).then(function (response) {
         if (response.ok) {
           response.json().then(function (json) {
-            categoryGroup = json;
-            initialize();
+            finalGroup = json;
+            updateDisplay();
           });
         } else {
           console.log('Network request for products.json failed with response ' + response.status + ': ' + response.statusText);
@@ -63,11 +72,11 @@ function initialize() {
           }
         }
       }*/
-        selectProducts();
+        
   }
 
   // semi-inutile qui renvois vers updateDisplay pour les afficher
-  function selectProducts() {
+/* function selectProducts() {
     if (searchTerm.value.trim() === '') {
       finalGroup = categoryGroup;
       updateDisplay();
@@ -81,7 +90,7 @@ function initialize() {
       }
       updateDisplay();
     }
-  }
+  }*/
 
   // vide les produit afficher puis envois des nouveau elements vers showProduct
   function updateDisplay() {
@@ -124,18 +133,18 @@ function initialize() {
 
     heading.textContent = product.nom.replace(product.nom.charAt(0), product.nom.charAt(0).toUpperCase());
 
-    para.textContent = product.prix.toFixed(2) + '€';
+    para.textContent = product.prix + '€';
 
     image.src = url;
     image.alt = product.nom;
 
     //mis en couleur selon le nutriscore
     nutriscore.textContent = product.nutriscore
-    if (nutriscore.textContent == 'A'){nutriscore.style.backgroundColor = ' #196f3d'}
-    else if (nutriscore.textContent == 'B'){nutriscore.style.backgroundColor = '#52be80'}
-    else if (nutriscore.textContent == 'C'){nutriscore.style.backgroundColor = ' #f1c40f'}
-    else if (nutriscore.textContent == 'D'){nutriscore.style.backgroundColor = '#dc7633'}
-    else if (nutriscore.textContent == 'E'){nutriscore.style.backgroundColor = '#c0392b'}
+    if (nutriscore.textContent == 'A'){nutriscore.classList.add("A")}
+    else if (nutriscore.textContent == 'B'){nutriscore.classList.add("B")}
+    else if (nutriscore.textContent == 'C'){nutriscore.classList.add("C")}
+    else if (nutriscore.textContent == 'D'){nutriscore.classList.add("D")}
+    else if (nutriscore.textContent == 'E'){nutriscore.classList.add("E")}
      
     txtnutriscore.textContent = 'Nutriscore : '
 

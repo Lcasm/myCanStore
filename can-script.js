@@ -133,7 +133,7 @@ function initialize() {
 
     heading.textContent = product.nom.replace(product.nom.charAt(0), product.nom.charAt(0).toUpperCase());
 
-    para.textContent = product.prix + '€';
+    para.textContent = parseFloat(product.prix).toFixed(2) + '€';
 
     image.src = url;
     image.alt = product.nom;

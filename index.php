@@ -1,3 +1,16 @@
+<?php
+try {
+  $dns = 'mysql:host=localhost;dbname=canStore'; // dbname : nom de la base
+  $utilisateur = 'root'; // root sur vos postes
+  $motDePasse = ''; // pas de mot de passe sur vos postes
+  $connection = new PDO( $dns, $utilisateur, $motDePasse );
+  $connection->exec('SET NAMES utf8');
+} catch (Exception $e) {
+    echo "Connexion à MySQL impossible : ", $e->getMessage();
+    die();
+}
+?>
+
 <!DOCTYPE html>
 <html>
 
@@ -44,12 +57,48 @@
           <input type="text" id="searchTerm" name="searchTerm" placeholder="ex : Petits pois">
         </div>
         <div>
-          <button>afficher le resultat</button>
+          <button name="envoyer">afficher le resultat</button>
         </div>
       </form>
     </aside>
     <main>
-
+      <?php 
+      $selectNutri = '';
+      $selectType = '';
+      $searchTerm = '';
+      if (isset($_POST['envoyer'])){
+        $selectNutri = $_POST['nutriscore'];
+        $selectType = $_POST['category'];
+        $searchTerm = $_POST['searchTerm'];
+      }
+      if ($selectNutri == 'Tous'){
+        $selectNutri = '';
+      }
+      if ($selectType == 'Tous'){
+        $selectType = '';
+      }
+      
+      $where = 'select * from produits where nutriscore like "%'.$selectNutri.'%" and type like "%'.$selectType.'%" and nom like "%'.$searchTerm.'%"';
+      
+      //sqlrequest
+      $select = $connection -> query($where);
+      $select->setFetchMode(PDO::FETCH_OBJ);
+      // affichage des produit
+      while($enregistrement = $select->fetch())
+      {
+      echo '
+            <section class="'.$enregistrement->type.'">
+              <h2>'.$enregistrement->nom.'</h2>
+              <p>'.$enregistrement->prix.'€</p>
+              <img src="images/'.$enregistrement->image.'" alt="'.strtolower($enregistrement->nom).'">
+              <h3>
+                Nutriscore :
+                <span class="'.$enregistrement->nutriscore.'">'.$enregistrement->nutriscore.'</span>
+              </h3>
+            </section>
+           ';
+      }
+      ?>
     </main>
   </div>
   <footer>
@@ -69,7 +118,7 @@
     </ol>
     </p>
   </footer>
-  <script src="can-script.js"></script>
+  <!--<script src="can-script.js"></script>-->
 </body>
 
 </html>

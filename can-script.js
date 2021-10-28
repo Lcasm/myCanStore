@@ -6,7 +6,7 @@ formdata = new FormData(myForm);
 for (var x of formdata) console.log(x);
 // ajout du fichier json dans la var product 
 // fetch pour eviter les erreur
-fetch('produits.php',{method:"post",body:formdata}).then(function (response) {
+fetch('index.php',{method:"post",body:formdata}).then(function (response) {
   if (response.ok) {
     response.json().then(function (json) {
       products = json;
@@ -51,7 +51,7 @@ function initialize() {
       //var myForm = document.getElementById('formSelect');
       formdata = new FormData(myForm);
       //for (var x of formdata) console.log(x);
-      fetch('produits.php',{method:"post",body:formdata}).then(function (response){//'produits.php?nutriscore='+lastnutriscore+'&category='+lastCategory+'&searchTerm='+lastSearch).then(function (response) {
+      fetch('index.php',{method:"post",body:formdata}).then(function (response){//'produits.php?nutriscore='+lastnutriscore+'&category='+lastCategory+'&searchTerm='+lastSearch).then(function (response) {
         if (response.ok) {
           response.json().then(function (json) {
             finalGroup = json;

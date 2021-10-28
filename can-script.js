@@ -3,7 +3,7 @@ var products;
 
 // ajout du fichier json dans la var product 
 // fetch pour eviter les erreur
-fetch('produits.json').then(function (response) {
+fetch('produits.php?nutriscore=Tous&category=Tous&searchTerm=').then(function (response) {
   if (response.ok) {
     response.json().then(function (json) {
       products = json;
@@ -36,6 +36,8 @@ function initialize() {
   searchBtn.onclick = selectCategory; 
   //ont met dans categoryGroup les element dans les condition des filtre
   function selectCategory(e) {
+
+    
     e.preventDefault();
     categoryGroup = [];
     finalGroup = [];
@@ -43,15 +45,24 @@ function initialize() {
       lastnutriscore = nutriscore.value
       lastCategory = category.value;
       lastSearch = searchTerm.value.trim();
-
-      var lowerCaseType = category.value.toLowerCase();
+      fetch('produits.php?nutriscore='+lastnutriscore+'&category='+lastCategory+'&searchTerm='+lastSearch).then(function (response) {
+        if (response.ok) {
+          response.json().then(function (json) {
+            categoryGroup = json;
+            initialize();
+          });
+        } else {
+          console.log('Network request for products.json failed with response ' + response.status + ': ' + response.statusText);
+        }
+      });
+      /*var lowerCaseType = category.value.toLowerCase();
       for (var i = 0; i < products.length; i++) {
         if (products[i].type === lowerCaseType || category.value === 'Tous') {
           if (products[i].nutriscore === lastnutriscore || lastnutriscore === 'Tous'){
             categoryGroup.push(products[i]);
           }
         }
-      }
+      }*/
         selectProducts();
   }
 

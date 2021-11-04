@@ -3,7 +3,6 @@ var products;
 var myForm = document.getElementById('formSelect');
 formdata = new FormData(myForm);
 
-for (var x of formdata) console.log(x);
 // ajout du fichier json dans la var product 
 // fetch pour eviter les erreur
 fetch('produits.php',{method:"post",body:formdata}).then(function (response) {

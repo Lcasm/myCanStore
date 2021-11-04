@@ -1,16 +1,7 @@
 <?php
-try {
-  $dns = 'mysql:host=localhost;dbname=canStore'; // dbname : nom de la base
-  $utilisateur = 'root'; // root sur vos postes
-  $motDePasse = ''; // pas de mot de passe sur vos postes
-  $connection = new PDO( $dns, $utilisateur, $motDePasse );
-  $connection->exec('SET NAMES utf8');
-} catch (Exception $e) {
-    echo "Connexion à MySQL impossible : ", $e->getMessage();
-    die();
-}
+include('connexion.php');
+include('requetefiltre.php');
 ?>
-
 <!DOCTYPE html>
 <html>
 
@@ -35,26 +26,24 @@ try {
         <div>
           <label for="category">Choix de catégorie:</label>
           <select id="category" name="category">
-            <option selected>Tous</option>
-            <option>Legumes</option>
-            <option>Viande</option>
-            <option>Soupe</option>
+            <option>Tous</option>
+            <?php 
+              requeteCat();
+            ?>
           </select>
         </div>
         <div>
           <label for="nutriscore">Nutriscore:</label>
           <select id="nutriscore" name="nutriscore">
-            <option selected>Tous</option>
-            <option>A</option>
-            <option>B</option>
-            <option>C</option>
-            <option>D</option>
-            <option>E</option>
+            <option>Tous</option>
+            <?php 
+              requeteNutri();
+            ?>
           </select>
         </div>
         <div>
           <label for="searchTerm" >Entre le terme de recherche:</label>
-          <input type="text" id="searchTerm" name="searchTerm" placeholder="ex : Petits pois">
+          <input type="text" id="searchTerm" name="searchTerm" placeholder="ex : Petits pois" value="<?php if (isset($_POST['searchTerm'])){echo $_POST['searchTerm'];} ?>">
         </div>
         <div>
           <button name="envoyer">afficher le resultat</button>
@@ -63,41 +52,7 @@ try {
     </aside>
     <main>
       <?php 
-      $selectNutri = '';
-      $selectType = '';
-      $searchTerm = '';
-      if (isset($_POST['envoyer'])){
-        $selectNutri = $_POST['nutriscore'];
-        $selectType = $_POST['category'];
-        $searchTerm = $_POST['searchTerm'];
-      }
-      if ($selectNutri == 'Tous'){
-        $selectNutri = '';
-      }
-      if ($selectType == 'Tous'){
-        $selectType = '';
-      }
-      
-      $where = 'select * from produits where nutriscore like "%'.$selectNutri.'%" and type like "%'.$selectType.'%" and nom like "%'.$searchTerm.'%"';
-      
-      //sqlrequest
-      $select = $connection -> query($where);
-      $select->setFetchMode(PDO::FETCH_OBJ);
-      // affichage des produit
-      while($enregistrement = $select->fetch())
-      {
-      echo '
-            <section class="'.$enregistrement->type.'">
-              <h2>'.$enregistrement->nom.'</h2>
-              <p>'.$enregistrement->prix.'€</p>
-              <img src="images/'.$enregistrement->image.'" alt="'.strtolower($enregistrement->nom).'">
-              <h3>
-                Nutriscore :
-                <span class="'.$enregistrement->nutriscore.'">'.$enregistrement->nutriscore.'</span>
-              </h3>
-            </section>
-           ';
-      }
+        include('produit.php');
       ?>
     </main>
   </div>
@@ -118,7 +73,6 @@ try {
     </ol>
     </p>
   </footer>
-  <!--<script src="can-script.js"></script>-->
 </body>
 
 </html>

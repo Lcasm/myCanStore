@@ -29,7 +29,7 @@ while($enregistrement = $select->fetch())
 echo '
       <section class="'.$enregistrement->type.'">
         <h2>'.$enregistrement->nom.'</h2>
-        <p>'.$enregistrement->prix.'€</p>
+        <p>'.number_format($enregistrement->prix,2).'€</p>
         <img src="images/'.$enregistrement->image.'" alt="'.strtolower($enregistrement->nom).'">
         <h3>
           Nutriscore :
